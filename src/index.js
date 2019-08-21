@@ -65,13 +65,18 @@ var gameBoard = {
 function update(){
 	gameBoard.update();
 	drawMap(matrix, gameBoard.gc);
+	player.update();
 }
 
 gameBoard.initialize();
 gameBoard.setResolution(1);
 
+var playerPos;
+
 var size = 41;
 var matrix = generateDungeon(size);
+console.log(playerPos);
 
+var player = new Player(playerPos[0], playerPos[1]);
 
-setInterval(update, 20);
+setInterval(update, 10);

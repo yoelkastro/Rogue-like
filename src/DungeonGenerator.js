@@ -99,7 +99,7 @@ function generateDungeon(size){
 
 		drawPath((i * 12) + 1, currPos, dir);
 
-		if(Math.floor(Math.random() * 100) < 50){
+		if(Math.floor(Math.random() * 100) < 60){
 			i --;
 		}
 	}
@@ -120,6 +120,7 @@ function generateDungeon(size){
 
 		var tile = Math.floor(Math.random() * availableSpace.length);
 		matrix[availableSpace[tile][0]][availableSpace[tile][1]] = 5;
+		playerPos = [availableSpace[tile][0], availableSpace[tile][1]];
 		availableSpace.splice(tile, 1);
 
 		while(numStaircase + numChest + numTrap > 0 || availableSpace.length == 0){
@@ -142,7 +143,6 @@ function generateDungeon(size){
 	}
 
 	placeObjects();
-
 
 	return matrix;
 }
