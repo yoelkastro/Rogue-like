@@ -1,3 +1,4 @@
+var colors = ["#000000", "#FFFFFF", "#AAAAAA", "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#AAFF00", "#FFAA00", "#00FFAA"];
 function generateDungeon(size){
 	var matrix = [];
 
@@ -148,7 +149,6 @@ function generateDungeon(size){
 }
 
 function drawMap(map, gc){
-	var colors = ["#000000", "#FFFFFF", "#AAAAAA", "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#AAFF00", "#FFAA00", "#00FFAA"];
 	for (var x = 0; x <  map.length; x++) {
 		for (var y = 0; y <  map[x].length; y++) {
 			map[x][y] = map[x][y] % 12;

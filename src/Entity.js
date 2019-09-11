@@ -3,11 +3,21 @@ class Entity {
 	constructor(x, y){
 		this.x = x;
 		this.y = y;
+		console.log(this.getPos())
+	}
+
+	getPos(){
+		return [this.x, this.y];
 	}
 
 	draw(){
 		gameBoard.gc.fillStyle = this.color;
-		gameBoard.gc.fillRect(this.x * gameBoard.canvas.width / size, this.y * gameBoard.canvas.height / size, gameBoard.canvas.width / size / 3, gameBoard.canvas.height / size / 3);
+		if(playerView){
+			gameBoard.gc.fillRect(this.x * gameBoard.canvas.width / size * 3 - (player.getPos()[0] * (gameBoard.canvas.width / size * 3))  + gameBoard.getSize()[0] / 2, this.y * gameBoard.canvas.height / size * 3 - (player.getPos()[1] * (gameBoard.canvas.width / size * 3)) + gameBoard.getSize()[1] / 2, gameBoard.canvas.width / size, gameBoard.canvas.height / size);
+		}
+		else{
+			gameBoard.gc.fillRect(this.x * gameBoard.canvas.width / size, this.y * gameBoard.canvas.height / size, gameBoard.canvas.width / size / 3, gameBoard.canvas.height / size / 3);
+		}
 	}
 
 }
@@ -24,9 +34,8 @@ class Player extends Entity {
 	}
 
 	move(){
-		var maxStep = 0.05
+		var maxStep = 0.025
 		var vel = [0, 0];
-		console.log(gameBoard.canvas.height / size / 3);
 		// 37 -> Left
 		if(gameBoard.keys[gameBoard.keys.length - 1] == 37 && matrix[Math.floor(this.x - maxStep)][Math.floor(this.y)] != 0 && matrix[Math.floor(this.x - maxStep)][Math.floor(this.y + (1/3))] != 0 && this.x - maxStep * 2 > 0){
 			vel[0] -= maxStep;
@@ -47,10 +56,14 @@ class Player extends Entity {
 		this.y += vel[1];
 	}
 
+	/*draw(){
+		gameBoard.gc.fillStyle = this.color;
+		gameBoard.gc.fillRect();
+	}*/
+
 	update(){
 		this.move();
 		this.draw();
-		console.log(this.x, this.y);
 	}
 	
 }

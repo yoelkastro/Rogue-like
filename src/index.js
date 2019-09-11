@@ -1,3 +1,4 @@
+var playerView = true;
 // gameBoard is the object that has the canvas
 var gameBoard = {
 	
@@ -54,6 +55,10 @@ var gameBoard = {
 		this.gc.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	},
 
+	getSize : function(){
+		return [this.canvas.width, this.canvas.height]
+	},
+
 	update : function(){
 		this.clear();
 		this.resize();
@@ -62,20 +67,37 @@ var gameBoard = {
 
 }
 
+function drawPlayerView(map, gc){
+	gc.fillRect(0, 0, gameBoard.canvas.width, gameBoard.canvas.height);
+	for(var x = 0; x < map.length; x++){
+		for(var y = 0; y < map[x].length; y++){
+			map[x][y] = map[x][y] % 12;
+			gc.fillStyle = colors[(map[x][y] % colors.length)];
+			if(map[x][y] != 0){
+				gc.fillRect(x * gameBoard.canvas.width / size * 3 - (player.getPos()[0] * (gameBoard.canvas.width / size * 3)) + gameBoard.getSize()[0] / 2, y * gameBoard.canvas.height / size * 3 - (player.getPos()[1] * (gameBoard.canvas.width / size * 3)) + gameBoard.getSize()[1] / 2, gameBoard.canvas.width / size * 3, gameBoard.canvas.height / size * 3);
+			}
+		}
+	}
+}
+
 function update(){
 	gameBoard.update();
-	drawMap(matrix, gameBoard.gc);
+	if(playerView){
+		drawPlayerView(matrix, gameBoard.gc);
+	}
+	else{
+		drawMap(matrix, gameBoard.gc);
+	}
 	player.update();
 }
 
 gameBoard.initialize();
-gameBoard.setResolution(1);
+gameBoard.setResolution(3/3);
 
 var playerPos;
 
 var size = 41;
 var matrix = generateDungeon(size);
-console.log(playerPos);
 
 var player = new Player(playerPos[0], playerPos[1]);
 
