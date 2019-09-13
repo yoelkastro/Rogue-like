@@ -1,17 +1,19 @@
-var playerView = true;
+var playerView = false; // For debug purposes
+
 // gameBoard is the object that has the canvas
 var gameBoard = {
 	
 	canvas : document.createElement("canvas"),
 	// Initialize the gameBoard
 	initialize : function(){
+		// Initialize the canvas
 		this.canvas.setAttribute("style", "margin:auto; display:block");
 		document.body.appendChild(this.canvas);
 		this.gc = this.canvas.getContext("2d");
 		this.canvas.width = window.innerWidth;
 		this.canvas.height = window.innerHeight;
 		this.keys = [];
-		// Add action listeners for the mouse
+		// Add action listeners for the mouse and keyboard
 		window.addEventListener('mousemove', function (e) {
      		gameBoard.mouseX = e.pageX;
       		gameBoard.mouseY = e.pageY;
@@ -29,7 +31,7 @@ var gameBoard = {
 	setResolution : function(res){
 		this.resolution = res;
 	},
-	// Draw static objects
+	// Draw static objects; There are currently no static objects
 	draw : function(){
 	},
 	// Resize the canvas depending on how much space is available
@@ -55,10 +57,12 @@ var gameBoard = {
 		this.gc.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	},
 
+	// Returns the size of the canvas
 	getSize : function(){
 		return [this.canvas.width, this.canvas.height]
 	},
 
+	// Updates the canvas
 	update : function(){
 		this.clear();
 		this.resize();
@@ -67,6 +71,12 @@ var gameBoard = {
 
 }
 
+/*
+	drawPlayerView: Draws the map in the perspective the player will see, 3 times larger
+
+	map: Matrix of the dungeon
+	gc: Canvas graphics context
+*/
 function drawPlayerView(map, gc){
 	gc.fillRect(0, 0, gameBoard.canvas.width, gameBoard.canvas.height);
 	for(var x = 0; x < map.length; x++){
@@ -80,6 +90,9 @@ function drawPlayerView(map, gc){
 	}
 }
 
+/*
+	update: Update the gameBoard and entities
+*/
 function update(){
 	gameBoard.update();
 	if(playerView){
@@ -91,14 +104,14 @@ function update(){
 	player.update();
 }
 
-gameBoard.initialize();
-gameBoard.setResolution(3/3);
+gameBoard.initialize(); // Initialize the gameBoard
+gameBoard.setResolution(3/3); // Set the resolution as a square
 
-var playerPos;
+var playerPos; // The position of the player
 
-var size = 41;
-var matrix = generateDungeon(size);
+var size = 41; // Size of the dungeon
+var matrix = generateDungeon(size); // Generate the dungeon
 
-var player = new Player(playerPos[0], playerPos[1]);
+var player = new Player(playerPos[0], playerPos[1]); // Initialize the player
 
-setInterval(update, 10);
+setInterval(update, 10); // Update the game every 10 milliseconds
